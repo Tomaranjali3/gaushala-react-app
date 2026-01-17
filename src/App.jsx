@@ -171,36 +171,30 @@ function App() {
     0
   );
 
-  const makePayment = () => {
+  const makePayment = async () => {
     const options = {
-      key: "rzp_live_S4tDqKQbOR5gx5", // LIVE KEY ID ONLY
-      amount: totalAmount * 100, // paise
+      key: "razorpay_key_id",
+      amount: totalAmount * 100,
       currency: "INR",
       name: "GauShala Dairy",
       description: "Premium Dairy Products",
-
+      image: "https://example.com/logo.png", //
       handler: function (response) {
-        alert(
-          "Payment Successful!\nPayment ID: " + response.razorpay_payment_id
-        );
-
-        // clear cart after payment
+        alert("Payment Successful! ID: " + response.razorpay_payment_id);
         setCart([]);
         setIsCartOpen(false);
       },
-
       prefill: {
-        name: user?.name || "Demo User",
-        email: user?.email || "demo@gmail.com",
+        name: user.name,
+        email: user.email,
       },
-
       theme: {
         color: "#181717",
       },
     };
 
-    const razorpay = new window.Razorpay(options);
-    razorpay.open();
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
   };
 
   const handleSuccess = (credentialResponse) => {
